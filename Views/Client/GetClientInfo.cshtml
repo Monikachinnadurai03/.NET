@@ -1,0 +1,36 @@
+﻿@model IEnumerable<IMS_WebApplication.Models.Client>
+
+@if (Model != null && Model.Any())
+{
+    <h2 class=" text-center" style="color: #FA67AB;">Clients from Tamil Nadu or Chennai</h2>
+    <table class="table table-bordered">
+        <thead style="background-color: #1DCED8; color: #333;">
+            <tr>
+                <th>Client ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ClientId</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.City</td>
+                <td>@item.State</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>no client found matching the provided criteria.</p>
+}
+
+
+

@@ -1,0 +1,23 @@
+﻿@model int
+
+@{
+    ViewData["Title"] = "Client Details";
+    Layout = "_MyLayout";
+}
+<div class="container col-md-6" style="margin-bottom: 20px;">
+
+<h4 style="color: #537791; margin-bottom: 20px;">Enter Client ID:</h4>
+
+<form asp-action="Details" method="post">
+    <div class="form-group">
+        <input type="number" class="form-control" id="clientId" name="id" required>
+        <span id="clientIdError" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Find Client</button>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <p class="text-danger">@ViewBag.ErrorMessage</p>
+}
+</div>

@@ -1,0 +1,289 @@
+﻿@using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage
+@model IMS_WebApplication.Models.Client
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_MyLayout";
+}
+<style>
+    /* Add your styles here */
+    
+    .form-group label {
+        font-weight: bold;
+    }
+    .message {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        
+    }
+
+    .success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+        text: center;
+    }
+
+    .error {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+
+    /* Add more styles as needed */
+</style>
+
+<h2 class="col-md-12 text-center" style="color: #FA67AB;">Add Client Details </h2>
+
+@* <h4 class="col-md-11 text-center">Client</h4> *@
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-6 text-lg-start">
+    @{
+            string responseClass = TempData["ResponseClass"] as string;
+            string responseMessage = TempData["Response"] as string;
+        }
+
+        @if (!string.IsNullOrEmpty(responseClass))
+        {
+            <div class="message @responseClass">
+                @responseMessage
+            </div>
+        }
+        <form asp-action="Create" onsubmit="return validateForm()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">First Name</label>
+                <input asp-for="FirstName" class="form-control" pattern="[A-Za-z]+" title="First Name cannot contain numbers or special characters" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+                @* <span id="firstNameValidation" class="text-danger" style="display: none;">First Name cannot contain integers.</span> *@
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Last Name</label>
+                <input asp-for="LastName" class="form-control" pattern="[A-Za-z]+" title="Last Name cannot contain numbers or special characters" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+                @* <span id="lastNameValidation" class="text-danger" style="display: none;">Last Name cannot contain integers.</span> *@
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control"/>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" pattern="\d{10}" title="Phone number must be 10 digits" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <select class="form-control" id="citySelect" name="city" required>
+                    <option value="Select">Select</option>
+                    <option value="Ariyalur">Ariyalur</option>
+                    <option value="Banglore">Banglore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Geneva">Geneva</option>                   
+                    <option value="Mombasa">Mombasa</option>
+                    <option value="Muscat">Muscat</option>
+                    <option value="Namakkal">Namakkal</option>
+                    <option value="NewYark">NewYark</option>
+                    <option value="Osh">Osh</option>
+                    <option value="Patna">Patna</option>
+                    <option value="Tenkasi">Tenkasi</option>
+                    <option value="Theni">Theni</option>
+                    <option value="Toronto">Toronto</option>
+                    <option value="Trichy">Trichy</option>
+                    <option value="Tuticorin">Tuticorin</option>
+                    <option value="NewYark">NewYark</option>
+                </select>
+                <span asp-validation-for="City" class="text-danger"></span>
+                <span id="selectedCity"></span>
+                @* <span id="cityValidation" class="text-danger" style="display: none;">Please select a city.</span> *@
+            </div>
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <select class="form-control" id="stateSelect" name="state" required>
+                    <option value="Select">Select</option>
+                    <option value="AndhraPradesh">AndhraPradesh</option>
+                    <option value="Alaska">Alaska</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="California">California</option>
+                    <option value="Florida">Florida</option>
+                    <option value="Hawali">Hawali</option>
+                    <option value="TamilNadu">TamilNadu</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Michigan">Michigan</option>
+                    <option value="Nairobi">Nairobi</option>                   
+                    <option value="Oman">Oman</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Texas">Texas</option>
+                    <option value="Wahington">Washington</option>
+                    <option value="NewYark">NewYark</option>
+                </select>
+                <span asp-validation-for="State" class="text-danger"></span>
+                <span id="selectedState"></span>
+                @* <span id="stateValidation" class="text-danger" style="display: none;">Please select a state.</span> *@
+            </div>
+            <div class="form-group">
+                <label asp-for="PanCardNo" class="control-label">PAN Card No</label>
+                <input asp-for="PanCardNo" class="form-control" />
+                <span asp-validation-for="PanCardNo" class="text-danger"></span> 
+            </div>
+            <div class="form-group">
+                <label class="control-label">Gender</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="male" name="gender" value="Male" required>
+                    <label class="form-check-label" for="male">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="female" name="gender" value="Female" required>
+                    <label class="form-check-label" for="female">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="other" name="gender" value="Other" required>
+                    <label class="form-check-label" for="other">Other</label>
+                </div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+                <span id="ageValidationMessage" class="text-danger" style="display: none;">Please enter a valid age.</span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 
+
+<script>
+function validateForm() {
+    var isValid = true;
+
+    // Validate city dropdown
+    var cityDropdown = document.querySelector('select[name="city"]');
+    if (cityDropdown.value === 'Select') {
+        isValid = false;
+        document.querySelector('span[data-valmsg-for="City"]').innerText = 'City is required';
+    } else {
+        document.querySelector('span[data-valmsg-for="City"]').innerText = '';
+    }
+
+    // Validate state dropdown
+    var stateDropdown = document.querySelector('select[name="state"]');
+    if (stateDropdown.value === 'Select') {
+        isValid = false;
+        document.querySelector('span[data-valmsg-for="State"]').innerText = 'State is required';
+    } else {
+        document.querySelector('span[data-valmsg-for="State"]').innerText = '';
+    }
+
+    // Validate other fields
+    var firstName = document.querySelector('input[name="FirstName"]').value.trim();
+    var lastName = document.querySelector('input[name="LastName"]').value.trim();
+    var email = document.querySelector('input[name="Email"]').value.trim();
+    var phoneNumber = document.querySelector('input[name="PhoneNumber"]').value.trim();
+    var panCardNo = document.querySelector('input[name="PanCardNo"]').value.trim();
+    var age = document.querySelector('input[name="Age"]').value.trim();
+
+    if (firstName === '') {
+        isValid = false;
+        document.querySelector('span[data-valmsg-for="FirstName"]').innerText = 'First Name is required';
+    } else {
+        document.querySelector('span[data-valmsg-for="FirstName"]').innerText = '';
+    }
+
+    if (lastName === '') {
+        isValid = false;
+        document.querySelector('span[data-valmsg-for="LastName"]').innerText = 'Last Name is required';
+    } else {
+        document.querySelector('span[data-valmsg-for="LastName"]').innerText = '';
+    }
+
+    if (email === '') {
+        isValid = false;
+        document.querySelector('span[data-valmsg-for="Email"]').innerText = 'Email is required';
+    } else {
+        document.querySelector('span[data-valmsg-for="Email"]').innerText = '';
+    }
+
+    if (phoneNumber === '') {
+        isValid = false;
+        document.querySelector('span[data-valmsg-for="PhoneNumber"]').innerText = 'Phone Number is required';
+    } else {
+        document.querySelector('span[data-valmsg-for="PhoneNumber"]').innerText = '';
+    }
+
+    if (panCardNo === '') {
+        isValid = false;
+        document.querySelector('span[data-valmsg-for="PanCardNo"]').innerText = 'PAN Card No is required';
+    } else {
+        document.querySelector('span[data-valmsg-for="PanCardNo"]').innerText = '';
+    }
+
+    var genderInputs = document.querySelectorAll('input[name="gender"]');
+    var genderSelected = false;
+    genderInputs.forEach(function(input) {
+        if (input.checked) {
+            genderSelected = true;
+        }
+    });
+
+    if (!genderSelected) {
+        isValid = false;
+        document.querySelector('span[data-valmsg-for="Gender"]').innerText = 'Gender is required';
+    } else {
+        document.querySelector('span[data-valmsg-for="Gender"]').innerText = '';
+    }
+
+
+    if (age === '') {
+        isValid = false;
+        document.querySelector('span[data-valmsg-for="Age"]').innerText = 'Age is required';
+    } else {
+        document.querySelector('span[data-valmsg-for="Age"]').innerText = '';
+    }
+
+    return isValid;
+}
+</script>
+
+@* <script>
+    function validateForm() {
+        // Validate radio buttons
+        var genderInputs = document.querySelectorAll('input[name="gender"]');
+    var genderSelected = false;
+    genderInputs.forEach(function(input) {
+        if (input.checked) {
+            genderSelected = true;
+        }
+    });
+
+    // Validate city dropdown
+    var cityDropdown = document.querySelector('select[name="city"]');
+    var citySelected = cityDropdown.value !== 'Select';
+
+    // Validate state dropdown
+    var stateDropdown = document.querySelector('select[name="state"]');
+    var stateSelected = stateDropdown.value !== 'Select';
+});
+
+        // Check if all required fields are filled out
+        if (!genderSelected || !citySelected || !stateSelected) {
+            // Display error message or prevent form submission
+            alert('Please fill out all required fields.');
+
+
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
+</script>
+ *@

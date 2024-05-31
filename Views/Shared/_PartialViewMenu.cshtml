@@ -1,0 +1,61 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<html>
+	<head>
+	<style>
+		.nav {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            background-color: #BDE6F1; /*  background for the menu container */
+            border-radius: 10px; /* Optional: Add some border radius for rounded corners */
+            height: auto;
+            
+       
+        }
+        .nav-item {
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+        .nav-link {
+            display: block;
+            padding: 10px;
+            /* background-color: B47B84; /* Light gray background */ */
+            text-decoration: none;
+            color: #333; /* Dark gray text color */
+            border: 2px solid transparent; /* Transparent border */
+            border-radius: 5px;
+            transition: all 0.1s ease; /* Smooth transition */
+        }
+        .nav-link:hover {
+            background-color: #12CAD6; /* Darker gray background on hover */
+            /* border-color: #333; /* Dark border color on hover */ */
+        }
+	</style>
+	</head>
+    <body>
+		<ul class="nav flex-column">
+			<li class="nav-item ">
+				<a class="nav-link text-dark " asp-area="" asp-controller="Client" asp-action="Create" style="font-size: 19px;">Create</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Details" style="font-size: 19px;">GetClientById</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="ClientList" style="font-size: 19px;">GetAllClients</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="ClientInvestment" style="font-size: 19px;">InvestmentDetails</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="ClientsByAgeAndGender" style="font-size: 19px;">ClientMapping</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="GetClientInfo" style="font-size: 19px;">ClientInformation</a>
+			</li>
+		</ul>
+    </body>
+</html>
+

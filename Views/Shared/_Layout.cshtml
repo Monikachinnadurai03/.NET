@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/IMS_WebApplication.styles.css" asp-append-version="true"/>
+
+    <style>
+        .navbar-brand {
+            text-align: center; /* Align the text in the center */
+            width: 100%; /* Make the navbar-brand take full width */
+        }
+
+        .navbar-brand h1 {
+            color: #fff; /* Set the text color to white */
+            font-size: 2rem; /* Increase the font size */
+            margin-top: 10px; /* Add some top margin */
+        }
+
+        .btn-primary {
+            background-color: #4caf50; /* Green background color */
+            border-color: #4caf50; /* Green border color */
+            color: #fff; /* White text color */
+            margin-left: 10px; /* Add some left margin */
+        }
+
+        .btn-primary:hover {
+            background-color: #45a049; /* Darker green background color */
+            border-color: #45a049; /* Darker green border color */
+        }
+
+        .btn-success {
+            background-color: #007bff; /* Blue background color */
+            border-color: #007bff; /* Blue border color */
+            color: #fff; /* White text color */
+        }
+
+        .btn-success:hover {
+            background-color: #0056b3; /* Darker blue background color */
+            border-color: #0056b3; /* Darker blue border color */
+        }
+        .pb-3{
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid" style="background-color: #265073;">
+                <div class="col-md-0">
+	                 <img src="~/Images/IMS_Logo.png" alt="Logo" class="img-fluid rounded-circle" asp-append-version="true" style="width: 100px; height: fixed;">
+                </div>
+                 <h1 class="text-center col-md-9 py-5" style="color: white;" > Investment Management System </h1> 
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav"> 
+                         
+                        <div class="text-lg-end">
+                        <div class="d-inline-flex">
+                            
+                            <a class="btn btn-primary me-4" asp-area="" asp-controller="Client" asp-action="SignUp">Sign Up</a>
+                           
+                            <a class="btn btn-success" asp-area="" asp-controller="Client" asp-action="Login">Login</a>
+                        </div>
+                        </div>
+                     </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    @* <div class="container " style="background-color: white;"> *@
+        <main role="main" class="pb-3" style="background-color: white;">
+            @RenderBody()
+        </main>
+    @* </div> *@
+
+    <footer class="footer text-light" style="background-color: #265073; position: fixed; bottom: 0; width: 100%; line-height: 20px;">
+        <div class="container text-center">
+            &copy; 2024 - IMS_WebApplication
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

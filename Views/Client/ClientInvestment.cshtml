@@ -1,0 +1,55 @@
+﻿@model IEnumerable<IMS_WebApplication.Models.ClientInvestment>
+@{
+    ViewData["Title"] = "Client Investment Details";
+    Layout = "_MyLayout";
+}
+
+<div class="container col-md-6" style="margin-bottom: 20px;">
+    <h2 class="text-center" style="color: #FA67AB;"> Investment Details</h2>
+
+    <form asp-action="ClientInvestment" method="post">
+        <div class="form-group">
+            <label for="clientId">Client ID:</label> <!-- Add text-center class -->
+            <input type="number" class="form-control" class="text center" id="clientId" name="clientId" required>
+        </div>
+        <button type="submit" class="btn btn-primary">View Investments</button>
+    </form>
+    
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <p class="text-danger">@ViewBag.ErrorMessage</p>
+    }
+</div>
+
+
+@if (Model != null && Model.Any())
+{
+    @* <h2 class="text-center" style="color: #537791;">Client Investment Details</h2> *@
+    <table class="table table-bordered">
+        <thead style="background-color: #1DCED8; color: #333;">
+            <tr>
+                <th>Client InvestmentId</th>
+                <th>Investment Amount</th>
+                <th>Quantity</th>
+                <th>Investment Date</th>
+                <th>Transaction ID</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ClientInvestmentId</td>
+                    <td>@item.InvestmentAmount</td>
+                    <td>@item.Quantity</td>                    
+                    <td>@item.InvestmentDate</td>
+                    <td>@item.TransactionId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+

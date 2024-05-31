@@ -1,0 +1,63 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<html>
+	<head>
+    <style>
+        /* Style for the header */
+        .container-fluid {
+            background-color: white; /* Dark background color */
+            /* color: 070707; /* White text color */ */
+            padding: 20px 0; /* Add padding to top and bottom */ 
+        }
+
+        .header-logo {
+            width: 100px; /* Logo width */
+            height: auto; /* Maintain aspect ratio */                     
+        }
+
+        h1 {
+            margin: 1; /* Remove default margin */
+        } */
+
+        .header-button {
+            margin-top: 5px; /* Add margin space between logo and buttons */
+        }
+
+        .header-button .btn {
+            margin-right: 5px; /* Add margin space between buttons */
+        }
+        .logout-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 20px;
+        }
+    </style>
+    <script>
+        function logout() {
+            // Redirect to the login page
+            window.location.href = '@Url.Action("Login", "Client")'; // Update the URL with your actual login page URL
+        }
+    </script>    
+        <header style="background-color: #088395;"> 
+		<div class="container py-3 ">
+			<div class="row align-items-center">
+                <div class="align-content-lg-start">
+                    @* <a asp-area="" asp-controller="Home" asp-action="Index"> *@
+                    <img src="~/Images/IMS_Logo.png" alt="Logo" class="img-fluid rounded-circle" asp-append-version="true" style="width: 90px; height: auto;"></a>
+                </div>
+                <div class="col-md-10" >
+		            <h1 class="text-center" style="color: #FFF7FC; font-size: 50px; font-weight: bold;">InvestEdge</h1>
+			    </div>
+                <div class="logout-button">
+                    <a class="btn btn-danger" onclick="logout()" asp-area="" asp-controller="Client" asp-action="Login">Logout</a>
+                </div>
+			</div>
+		</div>
+        </header>
+</head>
+<body>
+</body>
+</html>

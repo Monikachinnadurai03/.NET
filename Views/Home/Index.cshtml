@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    Layout = "_MYLayout";
+}
+
+<style>
+    body {
+        /* //background-color: #f0f0f0; /* Set your desired background color here */ */
+        background-color: #CFCBF1; 
+    }
+
+.welcome-subheading {
+    color: #4caf50; /* Green color */
+    font-size: 24px; /* Medium font size */
+}
+
+.welcome-text {
+    color: #666; /* Medium gray color */
+    font-size: 18px; /* Normal font size */
+    margin-bottom: 10px; /* Add some bottom margin */
+}
+
+canvas {
+    border: 2px solid #4caf50; /* Green border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    margin-top: 20px; /* Add some top margin */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition effect */
+}
+
+/* Hover effect */
+canvas:hover {
+    border-color: #2196f3; /* Blue border color on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.graph-container {
+        text-align: center;
+    }
+
+    .graph-column {
+        display: flex;
+        justify-content: center;
+    }
+
+
+</style>
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-12">
+            @* <h1 class="welcome-heading">InvestEdge</h1> *@
+            <h1 class="welcome-subheading">Welcome</h1>
+            <p class="welcome-text">InvestEdge is your go-to platform for managing your investments effectively.</p>
+            <p class="welcome-text">With InvestEdge, you can track your portfolio, analyze investment performance, and make informed decisions to optimize your financial growth.</p>
+            <p class="welcome-text">Get started today and take control of your investments!</p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <canvas id="portfolioChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Get a reference to the canvas element
+        var ctx = document.getElementById('portfolioChart').getContext('2d');
+
+        // Define your data for the chart (replace with actual data)
+        var chartData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Portfolio Value',
+                data: [1000, 1200, 1500, 1400, 1600, 1800], // Example data
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Background color
+                borderColor: 'rgba(255, 99, 132, 1)', // Border color
+                borderWidth: 1
+            }]
+        };
+
+        // Create the chart instance
+        var portfolioChart = new Chart(ctx, {
+            type: 'line', // Type of chart (line chart)
+            data: chartData,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+}

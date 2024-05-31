@@ -1,0 +1,291 @@
+﻿@model IMS_WebApplication.Models.Login
+
+@{
+    ViewData["Title"] = "Sign Up";
+    Layout = "_Layout";
+}
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<style>
+    .form-group {
+    margin-bottom: 20px; /* Add space below each label */
+    }
+    .form-group:last-child {
+        margin-top: 10px; /* Add space above the button */
+    }
+    .control-label {
+        font-weight: bold; /* Make the labels bold */
+    }
+    .form-group .btn {
+        margin-top: 10px; /* Add space above the button */
+    }
+
+
+</style>
+
+<h1 class="text-center">Sign Up</h1>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-4 text-lg-start">
+        <form asp-action="SignUp" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <div class="input-group">
+                    <input asp-for="Password" class="form-control" />
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="togglePassword">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </span>
+                    </div>
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+    <label asp-for="ConfirmPassword" class="control-label"></label>
+    <div class="input-group">
+        <input asp-for="ConfirmPassword" type="password" class="form-control" />
+        <div class="input-group-append">
+            <span class="input-group-text" id="toggleConfirmPassword">
+                <i class="fas fa-eye" id="confirmEyeIcon"></i>
+            </span>
+        </div>
+    </div>
+    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    <div id="passwordMatchMessage" class="text-danger"></div>
+</div>
+            <div class="form-group">
+                <input type="submit" value="Sign Up" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    // Function to toggle password visibility
+    function togglePasswordField(passwordField, eyeIcon) {
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Toggle password visibility
+    var passwordField = document.querySelector('input[name="Password"]');
+    var eyeIcon = document.getElementById('eyeIcon');
+    var togglePassword = document.getElementById('togglePassword');
+    togglePassword.addEventListener('click', function() {
+        togglePasswordField(passwordField, eyeIcon);
+    });
+
+    // Function to toggle confirm password visibility
+    function toggleConfirmPasswordField(confirmPasswordField, confirmEyeIcon) {
+        if (confirmPasswordField.type === 'password') {
+            confirmPasswordField.type = 'text';
+            confirmEyeIcon.classList.remove('fa-eye');
+            confirmEyeIcon.classList.add('fa-eye-slash');
+        } else {
+            confirmPasswordField.type = 'password';
+            confirmEyeIcon.classList.remove('fa-eye-slash');
+            confirmEyeIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Toggle confirm password visibility
+    var confirmPasswordField = document.querySelector('input[name="ConfirmPassword"]');
+    var confirmEyeIcon = document.getElementById('confirmEyeIcon');
+    var toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    toggleConfirmPassword.addEventListener('click', function() {
+        toggleConfirmPasswordField(confirmPasswordField, confirmEyeIcon);
+    });
+
+    // Add event listeners to compare passwords on input change
+    passwordField.addEventListener('input', function() {
+        togglePasswordMatchMessage(passwordField.value.trim(), confirmPasswordField.value.trim(), passwordMatchMessage);
+    });
+    confirmPasswordField.addEventListener('input', function() {
+        togglePasswordMatchMessage(passwordField.value.trim(), confirmPasswordField.value.trim(), passwordMatchMessage);
+    });
+
+
+    // Function to toggle password match message
+    function togglePasswordMatchMessage(password, confirmPassword) {
+        var passwordMatchMessage = document.getElementById('passwordMatchMessage');
+        if (password === confirmPassword) {
+            passwordMatchMessage.textContent = 'Passwords match';
+            passwordMatchMessage.classList.add('text-success');
+            passwordMatchMessage.classList.remove('text-danger');
+        } else {
+            passwordMatchMessage.textContent = 'Passwords do not match';
+            passwordMatchMessage.classList.add('text-danger');
+            passwordMatchMessage.classList.remove('text-success');
+        }
+    }
+
+    // Handle form submission
+    var loginForm = document.querySelector('form');
+    loginForm.addEventListener('submit', function(event) {
+        var username = document.querySelector('input[name="UserName"]').value.trim();
+        var password = passwordField.value.trim();
+        var passwordMatchMessage = document.getElementById('passwordMatchMessage');
+
+        if (username === '' || password === '') {
+            alert('Both username and password are required.');
+            event.preventDefault(); // Prevent form submission
+        } else if (password !== confirmPasswordField.value.trim()) {
+            togglePasswordMatchMessage(password, confirmPasswordField.value.trim(), passwordMatchMessage);
+            event.preventDefault(); // Prevent form submission
+        } else {
+            // Temporarily remove event listener to prevent toggling during form submission
+            togglePassword.removeEventListener('click', togglePasswordField);
+
+            // Submit the form data to the server for validation
+            fetch(loginForm.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    UserName: username,
+                    Password: password
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect authenticated user to dashboard
+                    window.location.href = '/Client/Login'; // Redirect to login page
+                } else {
+                    // Handle invalid credentials
+                    alert('Invalid username or password.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                // Re-attach the event listener after form submission
+                togglePassword.addEventListener('click', togglePasswordField);
+            });
+
+            event.preventDefault(); // Prevent default form submission
+        }
+    });
+</script>
+
+
+@* <script>
+    // Function to toggle password visibility
+    function togglePasswordField(passwordField, eyeIcon) {
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Toggle password visibility
+    var passwordField = document.querySelector('input[name="Password"]');
+    var eyeIcon = document.getElementById('eyeIcon');
+    var togglePassword = document.getElementById('togglePassword');
+    togglePassword.addEventListener('click', function() {
+        togglePasswordField(passwordField, eyeIcon);
+    });
+
+    // Function to toggle confirm password visibility
+    function toggleConfirmPasswordField(confirmPasswordField, confirmEyeIcon) {
+        if (confirmPasswordField.type === 'password') {
+            confirmPasswordField.type = 'text';
+            confirmEyeIcon.classList.remove('fa-eye');
+            confirmEyeIcon.classList.add('fa-eye-slash');
+        } else {
+            confirmPasswordField.type = 'password';
+            confirmEyeIcon.classList.remove('fa-eye-slash');
+            confirmEyeIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Toggle confirm password visibility
+    var confirmPasswordField = document.querySelector('input[name="ConfirmPassword"]');
+    var confirmEyeIcon = document.getElementById('confirmEyeIcon');
+    var toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    toggleConfirmPassword.addEventListener('click', function() {
+        toggleConfirmPasswordField(confirmPasswordField, confirmEyeIcon);
+    });
+
+    // Add event listeners to compare passwords on input change
+    passwordField.addEventListener('input', function() {
+        togglePasswordMatchMessage(passwordField.value.trim(), confirmPasswordField.value.trim(), passwordMatchMessage);
+    });
+    confirmPasswordField.addEventListener('input', function() {
+        togglePasswordMatchMessage(passwordField.value.trim(), confirmPasswordField.value.trim(), passwordMatchMessage);
+    });
+
+    // Handle form submission
+    var loginForm = document.querySelector('form');
+    loginForm.addEventListener('submit', function(event) {
+        var username = document.querySelector('input[name="UserName"]').value.trim();
+        var password = passwordField.value.trim();
+
+        if (username === '' || password === '') {
+            alert('Both username and password are required.');
+            event.preventDefault(); // Prevent form submission
+        } else {
+            // Temporarily remove event listener to prevent toggling during form submission
+            togglePassword.removeEventListener('click', togglePasswordField);
+
+            // Submit the form data to the server for validation
+            fetch(loginForm.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    UserName: username,
+                    Password: password
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect authenticated user to dashboard
+                    window.location.href = '/Client/Login'; // Redirect to login page
+                } else {
+                    // Handle invalid credentials
+                    alert('Invalid username or password.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                // Re-attach the event listener after form submission
+                togglePassword.addEventListener('click', togglePasswordField);
+            });
+
+            event.preventDefault(); // Prevent default form submission
+        }
+    });
+</script>
+ *@
